@@ -1,0 +1,43 @@
+version: '3.7'
+services:
+  mongo1:
+    image: mongo
+    container_name: mongo1
+    command: --config /etc/mongo/mongod.conf
+    networks:
+      - mongo_temp
+    volumes:
+      - ./mongod.conf:/etc/mongo/mongod.conf
+      - ./init_rs.js:/docker-entrypoint-initdb.d/init_rs.js
+  mongo2:
+    image: mongo
+    container_name: mongo2
+    command: --config /etc/mongo/mongod.conf
+    networks:
+      - mongo_temp
+    volumes:
+      - ./mongod.conf:/etc/mongo/mongod.conf
+  mongo3:
+    image: mongo
+    container_name: mongo3
+    command: --config /etc/mongo/mongod.conf
+    networks:
+      - mongo_temp
+    volumes:
+      - ./mongod.conf:/etc/mongo/mongod.conf
+  # ui:
+  #   image: mongo-express
+  #   container_name: mongo-ui
+  #   networks:
+  #     - mongo_temp
+  #   ports:
+  #     - 8001:8081
+  #   environment:
+  #     - ME_CONFIG_MONGODB_SERVER='mongo1,mongo2,mongo3'
+  #   depends_on:
+  #     - mongo1
+  #     - mongo2
+  #     - mongo3
+networks:
+  mongo_temp:
+    external: True
